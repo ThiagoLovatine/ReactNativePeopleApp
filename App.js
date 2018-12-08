@@ -1,43 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Header from './src/components/Header';
-import PeopleList from './src/components/PeopleList';
-import axios from 'axios';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import PeopleScreen from './src/screens/PeopleScreen';
+import PeopleDetailScreen from './src/screens/PeopleDetailScreen';
+import { capitalizeFirstLetter } from './src/util';
 
-export default class App extends React.Component {
+const AppNavigator = createStackNavigator({
+    'Main': {
+        screen: PeopleScreen,
+        navigationOptions: {
+            title: 'Pessoas'
+        }
+    },
+    'PeopleDetail': {
+        screen: PeopleDetailScreen,
+        navigationOptions: ({ navigation }) => {
+            const peopleName = capitalizeFirstLetter(navigation.state.params.people.name.first);
 
-  constructor(props){
-    super(props);
-
-    this.state = {
-      people: []
+            return({
+                title: peopleName
+            })
+        }
     }
-  }
+}, {
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: '#faf'
+        },
+        headerTintColor: 'white'
+    }
+});
 
-  componentDidMount(){
-    axios
-    .get('https://randomuser.me/api?nat=us&results=5')
-    .then((response) => {
-      const { results } = response.data;
-      
-      this.setState({
-        people: results 
-      });
+const AppContainer = createAppContainer(AppNavigator);
 
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
-  
-
-  render() {
-    return (
-      <View>
-        <Header title="Pessoas"/>  
-        <PeopleList people={ this.state.people } /> 
-      </View>
-    );
-  }
-}
+export default AppContainer;

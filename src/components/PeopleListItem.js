@@ -1,19 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { capitalizeFirstLetter } from '../util';
 
 const PeopleListItem = props => {
 
-    const { people } = props;
+    const { people, navigateToDetail } = props;
     const { first, last, title } = people.name;
-    console.log(people.name);
-
+    const { thumbnail } = people.picture;
+ 
     return( 
-        <View style={styles.line}>
-            <Text style={styles.lineText}>
-                { `${capitalizeFirstLetter(title)} ${capitalizeFirstLetter(first)} ${capitalizeFirstLetter(last)}` } 
-            </Text>
-        </View> 
+        <TouchableOpacity onPress={ () => { navigateToDetail({ people }) }}>
+            <View style={styles.line}>
+                <Image style={styles.avatar} source={{ uri: thumbnail }} />
+                <Text style={styles.lineText}>
+                    { `${
+                        capitalizeFirstLetter(title)
+                    }  ${
+                        capitalizeFirstLetter(first)
+                    } ${
+                        capitalizeFirstLetter(last)
+                    }` } 
+                </Text>
+            </View> 
+        </TouchableOpacity>
     );
 }
 
@@ -22,15 +31,23 @@ export default PeopleListItem;
 
 const styles = StyleSheet.create({
     line: {
-        alignItems: 'center',
         height: 60,
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 1,
         borderBottomColor: '#bbb',
+
+        alignItems: 'center',
         flexDirection: 'row',
-        justifyContent: 'center'
+        
     }, 
     lineText: {
         fontSize: 20,
-        padding: 10,
+        paddingLeft: 15,
+        flex: 7
+    },
+    avatar: {
+        aspectRatio: 1,
+        flex: 1,
+        marginLeft: 15,
+        borderRadius: 25,
     }
 })

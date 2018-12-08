@@ -4,7 +4,6 @@ import { Constants } from 'expo';
 
 const Header = props => (
     <View>
-        <View style={style.topBg}></View>
         <View style={style.container}>
             <Text style={style.title}>{ props.title }</Text>
         </View>
@@ -14,10 +13,6 @@ const Header = props => (
 
 
 const style = StyleSheet.create({
-    topBg: {
-        height: Constants.statusBarHeight,
-        backgroundColor: '#06a129'
-    },
     container : {
         backgroundColor: '#bbb',
         alignItems: 'center',
