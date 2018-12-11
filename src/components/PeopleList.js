@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView, Text, StyleSheet, FlatList } from 'react-native';
 
 import PeopleListItem from './PeopleListItem';
 
@@ -7,17 +7,14 @@ const PeopleList = props => {
 
     const { people, onPressItem } = props;
 
-    const items = people.map(obj => {
-        return <PeopleListItem 
-                    key={obj.name.first + ' ' + obj.id} 
-                    people={obj} 
-                    navigateToDetail={onPressItem} />
-    });
-
     return(
-        <View style={styles.container}>
-            { items }
-        </View>
+        <FlatList
+            style={styles.container}
+            data={people}
+            renderItem={({item}) => <PeopleListItem people={item} navigateToDetail={onPressItem} />}
+            keyExtractor={item => item.name.first+Math.random()}
+        />  
+
     )
 }
 
