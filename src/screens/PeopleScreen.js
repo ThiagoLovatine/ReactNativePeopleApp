@@ -17,25 +17,22 @@ export default class PeopleScreen extends React.Component {
 
   componentDidMount() {
 
+    /* Dispatch loading */
     this.setState({ loading: true })
 
+    /* Get data */
     axios
       .get('https://randomuser.me/api?nat=us&results=250')
       .then((response) => {
         const { results } = response.data;
 
-        this.setState({
-          people: results,
-          loading: false
-        });
+        /* Populate data */
+        this.setState({ people: results, loading: false });
 
       })
       .catch((error) => {
         console.log(error);
-        this.setState({
-          error: true,
-          loading: false
-        })
+        this.setState({ error: true, loading: false })
       });
   }
 
